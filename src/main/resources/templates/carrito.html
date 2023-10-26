@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>T2 Wilmer Ocampo - Tienda</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<header th:insert="~{layout :: header}"></header>
+<div class="container">
+    <h2 class="mt-4 mb-3">
+        <small>Carrito</small>
+    </h2>
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-9">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Categoría</th>
+                            <!--th scope="col">Acción</th-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="producto : ${productosEnCarrito}">
+                            <td th:text="${producto.get().nombre}">Nombre</td>
+                            <td th:text="${producto.get().descripcion}">Descripción</td>
+                            <td th:text="${producto.get().precio}">Precio</td>
+                            <td th:text="${producto.get().cantidad}">Cantidad</td>
+                            <td th:text="${producto.get().categoria.nombre}">Categoría</td>
+                            <!--td--><!--a href="#" class="btn btn-danger">Quitar</a-->
+                                <!--form method="post" th:action="@{'/productos/quitar/' + ${producto.get().id}}">
+                                    <button type="submit" class="btn btn-danger">Quitar</button>
+                                </form>
+                            </td-->
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                        <a class="btn btn-dark" th:href="@{/productos}">Seguir Comprando</a>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <h2 class="card-title">TOTAL</h2>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="monto-total">
+                                <h5 th:text="'Monto Total: S/. ' + ${totalCarrito}"></h5>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <form method="post" action="/productos/comprar">
+                                    <button type="button" class="btn btn-dark" onclick="comprarSweetAlert()">Comprar</button>
+                                </form>
+                                <form method="post" action="/productos/vaciarCarrito">
+                                    <button type="button" class="btn btn-danger" onclick="cancelarSweetAlert()">Cancelar</button>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:insert="~{layout :: footer}"></footer>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script th:src="@{/js/sweetalert2.all.min.js}"></script>
+<script>
+    function comprarSweetAlert() {
+        Swal.fire({
+            icon: 'success',
+            title: 'Compra realizada con éxito',
+            showConfirmButton: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/productos/comprar";
+            }
+        });
+    }
+    function cancelarSweetAlert() {
+        Swal.fire({
+            icon: 'warning', // Ícono de advertencia
+            title: '¿Desea cancelar la Compra?',
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'NO',
+            cancelButtonText: 'SÍ',
+        }).then((result) => {
+            if (!result.isConfirmed) {
+                window.location.href = "/productos/vaciarCarrito";
+            }
+        });
+    }
+</script>
+</body>
+</html>
