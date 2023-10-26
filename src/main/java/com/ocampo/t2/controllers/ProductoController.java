@@ -37,7 +37,7 @@ public class ProductoController {
 
     @GetMapping("/carrito")
     public String verCarrito(Model model) {
-        calcularTotalCarrito(model); // Llama al método para calcular el total antes de mostrar la vista.
+        calcularTotalCarrito(model);
         model.addAttribute("productosEnCarrito", carrito);
         return "carrito";
     }
@@ -88,8 +88,7 @@ public class ProductoController {
     }
 
     /*@PostMapping("/quitar/{id}")
-    public String quitarProducto(@PathVariable Integer id) {
-        // Encuentra y elimina el producto del carrito
+    public String quitarProducto(@PathVariable Integer id) {// Encuentra y elimina el producto del carrito
         Optional<Optional<Producto>> productoAEliminar = carrito.stream()
                 .filter(p -> p.get().getId() == id)
                 .findFirst();
@@ -98,7 +97,6 @@ public class ProductoController {
             carrito.remove(productoAEliminar);
         }
 
-        return "redirect:/productos/carrito"; // Redirige de nuevo a la vista del carrito
-    }*/
+        return "redirect:/productos/carrito"; // Redirige de nuevo a la vista del carrito}*/
 
 }
